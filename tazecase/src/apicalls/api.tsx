@@ -12,7 +12,7 @@ interface CoinDetails {
 }
 export const fetchNews = async (index: string | undefined): Promise<any> => {
   const res = await axios.get(
-    `http://localhost:3000/${
+    `https://crypto-news-server-express-ir7h.vercel.app/${
       index == "" ? "getnews" : `getnews?index=${index}`
     }`
   );

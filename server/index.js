@@ -3,9 +3,18 @@ const cors = require("cors");
 const news = require("./json/news.json");
 const app = express();
 
-app.use(cors());
 
-
+const whitelist = ['https://tazetask.netlify.app'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Bu alan adına CORS izni verilmedi'))
+    }
+  }
+}
+app.use(cors(corsOptions));
 app.get("/getnews", function (req, res) {
   const index = req.query.index;
   if (!index) {
@@ -15,7 +24,9 @@ app.get("/getnews", function (req, res) {
   }
 });
 
+const port = process.env.PORT || 9001
 
-app.listen(3000, function () {
+app.listen(port, function () {
   console.log("Sunucu 3000 portunda çalışıyor...");
 });
+module.exports = app
