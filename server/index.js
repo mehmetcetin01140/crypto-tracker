@@ -3,18 +3,9 @@ const cors = require("cors");
 const news = require("./json/news.json");
 const app = express();
 
+app.use(cors());
 
-const whitelist = ['https://tazetask.netlify.app'];
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Bu alan adına CORS izni verilmedi'))
-    }
-  }
-}
-app.use(cors(corsOptions));
+
 app.get("/getnews", function (req, res) {
   const index = req.query.index;
   if (!index) {
