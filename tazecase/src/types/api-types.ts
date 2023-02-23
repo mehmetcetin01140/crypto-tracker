@@ -1,5 +1,11 @@
 
-
+export interface NewsTypes{
+  date:string
+  desc:string
+  id:number
+  image:string
+  title:string
+}
 export interface CoinTypes {
   id: string
   symbol: string
@@ -1750,10 +1756,4 @@ export interface MarketTypes {
     total_volumes: number[][]
   }
   
-  export interface NewsTypes {
-    date:string,
-    desc:string,
-    id:number,
-    image:string,
-    title:string
-  }
+  

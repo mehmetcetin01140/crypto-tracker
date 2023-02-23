@@ -10,23 +10,20 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import Transition from "../animations/transition";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-type Props = {};
+import { CreateUseScroll } from "../utils/create-usescroll";
+export default function NewsDetail() {
+  const { id } = useParams<{ id?: string }>();
 
-export default function NewsDetail({}: Props) {
-  const { id } = useParams<{ id: string | undefined }>();
-
-  const { data, isLoading, isError } = useQuery(["fetchnewsdetail", id], () =>
+  const { data } = useQuery(["fetchnewsdetail", id], () =>
     fetchNews(id)
   );
 
   const navigate = useNavigate();
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }, [id]);
+  const handleBack = () => navigate(-1);
+  const useScroll = CreateUseScroll(id);
+  useScroll()
+ 
+
   return (
     <HelmetProvider>
     <Helmet>
@@ -42,7 +39,7 @@ export default function NewsDetail({}: Props) {
                 <span>{data?.date}</span>
                 <FontAwesomeIcon
                   icon={faArrowLeft}
-                  onClick={() => navigate(-1)}
+                  onClick={handleBack}
                 />
               </div>
               <h3>{data?.title}</h3>

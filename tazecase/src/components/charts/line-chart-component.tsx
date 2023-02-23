@@ -22,16 +22,17 @@ ChartJS.register(
   Filler,
   Legend
 );
+interface ChartDataTypes{
+  chartData : Number[] | number[][]
+  labels?:string[]
+  title:string
 
+}
 export function LineChartComponent({
   chartData,
   labels,
   title,
-}: {
-  chartData: any;
-  labels: any;
-  title: any;
-}) {
+}:ChartDataTypes) {
   const options = {
     plugins: {
       legend: {
@@ -43,6 +44,7 @@ export function LineChartComponent({
       },
     },
   };
+
 
   const data = {
     labels,

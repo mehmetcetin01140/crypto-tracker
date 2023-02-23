@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import { useState,useEffect } from "react";
 import { Link,useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getAppState, setModalShow } from "../store/slices/app-slice";
@@ -18,9 +18,11 @@ export default function SideBar() {
   const { modalShow } = useSelector(getAppState);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isBreakpoint: boolean = useMediaQuery("(max-width:992px)");
+
   useEffect(()=>{
     setIsOpen(false)
   },[location])
+  
   const RenderLinks = () => {
     return (
       <>

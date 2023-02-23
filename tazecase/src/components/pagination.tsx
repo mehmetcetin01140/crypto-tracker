@@ -3,12 +3,12 @@ import Pagination from "react-bootstrap/Pagination";
 import { useNavigate } from "react-router-dom";
 import { Dispatch, SetStateAction } from "react";
 
-type Props = {
+type PaginationComponentProps = {
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
 };
 
-const PaginationComponent: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
+const PaginationComponent: React.FC<PaginationComponentProps> = ({ currentPage, setCurrentPage }) => {
   const navigate = useNavigate();
   const totalPages = 615;
 

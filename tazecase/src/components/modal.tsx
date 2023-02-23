@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import CoinListTable from "./table/coin-list-table";
@@ -7,7 +7,8 @@ import { getAppState, setModalShow } from "../store/slices/app-slice";
 import SearchInput from "./search-input";
 import { useLocation } from "react-router-dom";
 import type { CoinTypes } from "../types/api-types";
-type Props = {
+
+type ModalComponentProps = {
   modalData: CoinTypes[];
 };
 
@@ -42,7 +43,7 @@ function ModalContent({ filteredData }: ModalContentProps) {
 
 const MemoizedModalContent = React.memo(ModalContent);
 
-export default function ModalComponent({ modalData }: Props) {
+export default function ModalComponent({ modalData }: ModalComponentProps) {
   const { selectedCoinsForTracking, modalShow } = useSelector(getAppState);
   const dispatch = useDispatch();
   const [filteredData, setFilteredData] = useState<CoinTypes[]>(() =>
@@ -51,9 +52,12 @@ export default function ModalComponent({ modalData }: Props) {
     )
   );
   const location = useLocation();
+  const handleClose = () => dispatch(setModalShow(false));
+
   useEffect(() => {
-    dispatch(setModalShow(false));
+    handleClose();
   }, [location]);
+
 
   useEffect(() => {
     setFilteredData(
@@ -63,27 +67,24 @@ export default function ModalComponent({ modalData }: Props) {
     );
   }, [selectedCoinsForTracking, modalData]);
 
-  const handleClose = useMemo(() => () => dispatch(setModalShow(false)), []);
 
   return (
-    <>
-      <Modal
-        show={modalShow}
-        onHide={handleClose}
-        size="xl"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Tracking Coins
-          </Modal.Title>
-        </Modal.Header>
-        <MemoizedModalContent filteredData={filteredData} />
-        <Modal.Footer>
-          <Button onClick={() => dispatch(setModalShow(false))}>Close</Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+    <Modal
+      show={modalShow}
+      onHide={handleClose}
+      size="xl"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Tracking Coins
+        </Modal.Title>
+      </Modal.Header>
+      <MemoizedModalContent filteredData={filteredData} />
+      <Modal.Footer>
+        <Button onClick={handleClose}>Close</Button>
+      </Modal.Footer>
+    </Modal>
   );
 }

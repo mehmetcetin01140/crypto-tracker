@@ -213,9 +213,10 @@ table {
     overflow-x: scroll !important;
     display: flex;
     position: relative;
-
+    
     .top-coins-card {
       min-width: 391.5px;
+      width: 100%;
       height: 340px;
       padding: 32px;
       border-radius: 0.5rem;
@@ -224,6 +225,7 @@ table {
       margin-right: 40px;
       overflow: hidden;
       position: relative;
+     
       cursor: pointer;
       z-index: 1;
       &:nth-child(2) {
@@ -260,7 +262,7 @@ table {
       }
       &:hover {
         h4 {
-          transform: translateX(calc(75% - 40px));
+          transform: translateX(calc(75% - 25px));
 
           border-radius: 8px;
           padding: 5px 0px;
@@ -279,7 +281,7 @@ table {
         }
         .top-coins-price {
           position: absolute;
-          top: 50%;
+          top: 45%;
           left: 50%;
           transform: translate(-50%, -50%);
           transition: 1s all;
@@ -287,8 +289,9 @@ table {
         }
         .top-coins-24-hours {
           position: absolute;
+          justify-content: center;
           top: 60%;
-          left: 35%;
+          left: 50%;
           transform: translate(-50%, -50%);
           width: 100%;
           font-size: 16px;
@@ -383,6 +386,7 @@ table {
   .coin-details-info-list {
     width: 100%;
     height: 100%;
+    max-height: 480px;
     background-color: whitesmoke;
     border-radius: 8px;
     padding: 5px 15px;

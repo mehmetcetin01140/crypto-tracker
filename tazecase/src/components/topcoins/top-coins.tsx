@@ -1,13 +1,13 @@
 import { useQuery } from "react-query";
-import axios from "axios";
 import TopCoinsCard from "./top-coins-card";
 import { fetchTop10Coins } from "../../apicalls/api";
+import type { CoinTypes} from "../../types/api-types";
 export default function TopCoins() {
-  const { isLoading, error, data } = useQuery("top10Coins", fetchTop10Coins);
+  const { data } = useQuery("top10Coins", fetchTop10Coins);
 
   return (
     <div className="top-coins">
-      {data?.map((topCoin: any, i: number) => (
+      {data?.map((topCoin: CoinTypes, i: number) => (
         <TopCoinsCard topCoinsCardData={topCoin} key={i} />
       ))}
     </div>

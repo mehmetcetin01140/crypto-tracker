@@ -3,6 +3,7 @@ import type {
   CoinTypes,
   MarketTypes,
   MonthlyAndYearlyTypes,
+  NewsTypes,
 } from "../types/api-types";
 
 interface CoinDetails {
@@ -10,16 +11,37 @@ interface CoinDetails {
   dataMonthly: MonthlyAndYearlyTypes;
   dataYearly: MonthlyAndYearlyTypes;
 }
-export const fetchNews = async (index: string | undefined): Promise<any> => {
+interface Top10CoinsParams {
+  vs_currency: string;
+  per_page: number;
+  page: number;
+  sparkline: boolean;
+  price_change_percentage: string;
+}
+interface FetchCoinsParams {
+  vs_currency: string;
+  order: string;
+  per_page: number;
+  page: number;
+  sparkline: boolean;
+}
+
+type CoinTypesData = {
+  data: CoinTypes[];
+};
+
+export const fetchNews = async (index: string | undefined) => {
   const res = await axios.get(
     `https://crypto-news-server-express-ir7h.vercel.app/${
       index == "" ? "getnews" : `getnews?index=${index}`
     }`
   );
+
   return res.data;
 };
-export const fetchTop10Coins = async (): Promise<MarketTypes[]> => {
-  const response = await axios.get(
+
+export const fetchTop10Coins = async (): Promise<CoinTypes[]> => {
+  const response = await axios.get<Top10CoinsParams, CoinTypesData>(
     "https://api.coingecko.com/api/v3/coins/markets",
     {
       params: {
@@ -31,10 +53,12 @@ export const fetchTop10Coins = async (): Promise<MarketTypes[]> => {
       },
     }
   );
+
   return response.data;
 };
+
 export const fetchCoins = async (page: number): Promise<CoinTypes[]> => {
-  const res = await axios.get(
+  const res = await axios.get<FetchCoinsParams, CoinTypesData>(
     `https://api.coingecko.com/api/v3/coins/markets`,
     {
       params: {
@@ -46,11 +70,11 @@ export const fetchCoins = async (page: number): Promise<CoinTypes[]> => {
       },
     }
   );
+
   return res.data;
 };
-export const fetchCoinDetails = async (
-  id: string | undefined
-): Promise<CoinDetails> => {
+
+export const fetchCoinDetails = async (id?: string): Promise<CoinDetails> => {
   const params = {
     tickers: false,
     market_data: true,
@@ -60,17 +84,17 @@ export const fetchCoinDetails = async (
   const [coins, dataMonthly, dataYearly] = await Promise.all([
     axios
       .get(`https://api.coingecko.com/api/v3/coins/${id}`, { params })
-      .then((res: any) => res.data),
+      .then((res) => res.data),
     axios
       .get(`https://api.coingecko.com/api/v3/coins/${id}/market_chart`, {
         params: { vs_currency: "usd", days: 30 },
       })
-      .then((res: any) => res.data),
+      .then((res) => res.data),
     axios
       .get(`https://api.coingecko.com/api/v3/coins/${id}/market_chart`, {
         params: { vs_currency: "usd", days: 365 },
       })
-      .then((res: any) => res.data),
+      .then((res) => res.data),
   ]);
 
   return { coins, dataMonthly, dataYearly };

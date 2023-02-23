@@ -1,16 +1,18 @@
-import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import type { CoinTypes } from "../../types/api-types";
 type Props = {
-  topCoinsCardData: CoinTypes
+  topCoinsCardData: CoinTypes;
 };
 
 export default function TopCoinsCard({ topCoinsCardData }: Props) {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
-    <div className="top-coins-card" onClick={()=>navigate(`/coin/${topCoinsCardData.id}`)}>
+    <div
+      className="top-coins-card"
+      onClick={() => navigate(`/coin/${topCoinsCardData.id}`)}
+    >
       <div className="top-coins-name">
         <h4 className="border-effect">{topCoinsCardData.name}</h4>
       </div>
